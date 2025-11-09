@@ -1,30 +1,24 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "@/Pages/Login";
 import Home from "@/Pages/Home";
-import  { AuthProvider }  from "../backend/scripts/AuthContext";
+import Shop from "./Pages/Shop";
 import  ProtectedRoute  from "../backend/scripts/ProtectedRoute";
+import MorphingSVGDemo from "@/components/examples/MorphingSVGExample";
+import { Toaster } from "@/components/ui/sonner";
 
-
-
-
-
-export default function App() {
+function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route 
-            path="/home" 
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            } 
-          />
-          <Route path="/" element={<Navigate to="/login" replace />} />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
-  );
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/shop" element={<ProtectedRoute><Shop /></ProtectedRoute>} />
+        <Route path="/demo" element={<ProtectedRoute><MorphingSVGDemo /></ProtectedRoute>} />
+      </Routes>
+      <Toaster />
+    </BrowserRouter>
+  )
 }
+
+export default App

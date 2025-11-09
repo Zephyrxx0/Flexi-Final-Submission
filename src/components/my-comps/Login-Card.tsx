@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 //Components
 import { Label } from "@/components/ui/label";
@@ -33,13 +34,29 @@ function SignupForm({ onNavigate }: FormProps) {
 
     try{
       await signUp(email, password);
-    } catch (error) {
-      console.error("sign up failed", error)
+      toast.success("Account created successfully!");
+    } catch (error: any) {
+      console.error("sign up failed", error);
+      
+      // Handle specific Firebase error codes
+      if (error.code === "auth/email-already-in-use") {
+        toast.error("Account already exists with this email");
+      } else if (error.code === "auth/weak-password") {
+        toast.error("Password should be at least 6 characters");
+      } else if (error.code === "auth/invalid-email") {
+        toast.error("Invalid email address");
+      } else if (error.code === "auth/missing-password") {
+        toast.error("Please enter a password");
+      } else if (error.code === "auth/missing-email") {
+        toast.error("Please enter an email address");
+      } else {
+        toast.error("Sign up failed. Please try again");
+      }
     }
   };
 
   return (
-    <div className="shadow-input mx-auto w-[100%] max-w-md rounded-none bg-card/90 backdrop-blur-[2.5px] p-4 md:rounded-2xl md:p-8 border-2 border-[#FDFFD4]">
+    <div className="shadow-input mx-auto w-[100%] max-w-md rounded-none bg-card/90 backdrop-blur-[2.5px] p-4 md:rounded-2xl md:p-8 border-2 border-accent">
       <h2 className="text-xl font-bold text-foreground">
         Welcome to Gro-Story
       </h2>
@@ -70,7 +87,7 @@ function SignupForm({ onNavigate }: FormProps) {
         </LabelInputContainer>
 
         <button
-          className="group/btn relative block h-10 w-full rounded-md bg-primary font-medium text-primary-foreground shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset]"
+          className="group/btn relative block h-10 w-full rounded-md bg-primary font-medium text-primary-foreground shadow-[0px_1px_0px_0px_oklch(var(--primary-foreground)/.25)_inset,0px_-1px_0px_0px_oklch(var(--primary-foreground)/.25)_inset]"
           type="submit"
         >
           Sign Up &rarr;
@@ -103,14 +120,32 @@ function LoginForm({ onNavigate }: FormProps) {
 
     try {
       await logIn(email, password);
+      toast.success("Login successful!");
       navigate("/home")  // Use imported function
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login failed", error);
+      
+      // Handle specific Firebase error codes
+      if (error.code === "auth/invalid-credential" || error.code === "auth/wrong-password" || error.code === "auth/user-not-found") {
+        toast.error("Invalid email or password");
+      } else if (error.code === "auth/invalid-email") {
+        toast.error("Invalid email address");
+      } else if (error.code === "auth/missing-password") {
+        toast.error("Please enter a password");
+      } else if (error.code === "auth/missing-email") {
+        toast.error("Please enter an email address");
+      } else if (error.code === "auth/too-many-requests") {
+        toast.error("Too many failed attempts. Please try again later");
+      } else if (error.code === "auth/user-disabled") {
+        toast.error("This account has been disabled");
+      } else {
+        toast.error("Login failed. Please try again");
+      }
     }
   };
 
   return (
-    <div className="shadow-input mx-auto w-[100%] max-w-md rounded-none bg-card/90 backdrop-blur-[2.5px] p-4 md:rounded-2xl md:p-8 border-2 border-[#FDFFD4]">
+    <div className="shadow-input mx-auto w-[100%] max-w-md rounded-none bg-card/90 backdrop-blur-[2.5px] p-4 md:rounded-2xl md:p-8 border-2 border-accent">
       <h2 className="text-xl font-bold text-foreground">
         Welcome to Gro-Story
       </h2>
@@ -141,7 +176,7 @@ function LoginForm({ onNavigate }: FormProps) {
         </LabelInputContainer>
 
         <button
-          className="group/btn relative block h-10 w-full rounded-md bg-primary font-medium text-primary-foreground shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset]"
+          className="group/btn relative block h-10 w-full rounded-md bg-primary font-medium text-primary-foreground shadow-[0px_1px_0px_0px_oklch(var(--primary-foreground)/.25)_inset,0px_-1px_0px_0px_oklch(var(--primary-foreground)/.25)_inset]"
           type="submit"
         >
           Login &rarr;

@@ -1,24 +1,30 @@
 import { cn } from "@/lib/utils";
+import React from "react";
 
 interface CustomPatternProps {
   svgName: string;
   scale: string;
-  color: string;
   className?: string;
+  pathRef?: React.Ref<SVGPathElement>;
+  pathId?: string;
+  pathClass?: string;
 }
 
 export default function SVG({
   svgName,
   scale,
-  color,
   className,
+  pathRef,
+  pathId,
+  pathClass,
 }: CustomPatternProps) {
+  const color = "currentColor";
+  
   if (svgName === "Conc-Circle") {
     return (
       <svg
-        color="#000000"
         viewBox="0 0 99 99"
-        fill={color}
+        fill="currentColor"
         xmlns="http://www.w3.org/2000/svg"
         width={scale}
         height={scale}
@@ -60,7 +66,7 @@ export default function SVG({
         height={scale}
         className={cn("block", className)}
       >
-        <g clip-path="url(#cs_clip_1_flower-1)">
+        <g clipPath="url(#cs_clip_1_flower-1)">
           <mask
             id="cs_mask_1_flower-1"
             style={{ maskType: "alpha" }}
@@ -134,6 +140,9 @@ export default function SVG({
         className={cn("block", className)}
       >
         <path
+          ref={pathRef}
+          id={pathId}
+          className={pathClass}
           d="M 78 0 C 105.614 0 128 22.386 128 50 C 128 22.386 150.386 0 178 0 L 256 0 L 256 78 C 256 105.614 233.614 128 206 128 C 233.614 128 256 150.386 256 178 L 256 256 L 178 256 C 150.386 256 128 233.614 128 206 C 128 233.614 105.614 256 78 256 L 0 256 L 0 178 C 0 150.386 22.386 128 50 128 C 22.386 128 0 105.614 0 78 L 0 0 Z"
           fill={color}
         ></path>
@@ -150,6 +159,9 @@ export default function SVG({
         className={cn("block", className)}
       >
         <path
+          ref={pathRef}
+          id={pathId}
+          className={pathClass}
           d="M 128 128 C 128 198.692 70.692 256 0 256 C 0 185.308 57.308 128 128 128 Z M 128 128 C 198.692 128 256 185.308 256 256 C 185.308 256 128 198.692 128 128 Z M 0 0 C 70.692 0 128 57.308 128 128 C 57.308 128 0 70.692 0 0 Z M 256 0 C 256 70.692 198.692 128 128 128 C 128 57.308 185.308 0 256 0 Z"
           fill={color}
         ></path>
@@ -234,5 +246,28 @@ export default function SVG({
         />
       </svg>
     );
+  } else if (svgName === "Star-3") {
+    return (
+      <svg
+        viewBox="0 0 87 87"
+        fill="currentColor"
+        xmlns="http://www.w3.org/2000/svg"
+        width={scale}
+        height={scale}
+        className={cn("block", className)}
+      >
+        <path
+          ref={pathRef}
+          id={pathId}
+          className={pathClass}
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M47.2502 36.3242L43.007 0.5625L38.7732 36.2454L23.2272 23.9435L35.3338 39.3772L0 43.5695L35.6768 47.8026L23.1427 63.642L38.8261 51.3396L43.007 86.5766L47.1879 51.3396L62.8413 63.7265L50.3491 47.8012L86.0141 43.5695L50.7711 39.3879L62.9258 24.0279L47.2502 36.3242Z"
+          fill={color}
+        />
+      </svg>
+    );
   }
+
+  return null;
 }

@@ -14,11 +14,11 @@ export default function Login() {
         strokeDasharray="5 10"
       />
 
-      <SVG svgName="Star-2" scale="200px" color="#FDFFD4" className="fixed top-5 right-5 opacity-95" />
+      <SVG svgName="Star-2" scale="200px" className="fixed top-5 right-5 opacity-95 text-accent" />
 
-      <SVG svgName="Star-2" scale="200px" color="#FDFFD4" className="fixed bottom-5 left-5 opacity-95" />
+      <SVG svgName="Star-2" scale="200px" className="fixed bottom-5 left-5 opacity-95 text-accent" />
 
-      <SVG svgName="Star-1" scale="700px" color="#FDFFD4" className="fixed animate-spin-slow-5" />
+      <SVG svgName="Star-1" scale="700px" className="fixed animate-spin-slow-5 text-accent" />
 
       <div className="fixed top-12 left-38 scale-500" >
         <EncryptedText text="Gro-Story" />
