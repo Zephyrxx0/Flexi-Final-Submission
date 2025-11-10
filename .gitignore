@@ -22,4 +22,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-backend/scripts/vite-env.d.ts
+frontend/src/utils/vite-env.d.ts

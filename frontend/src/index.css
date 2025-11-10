@@ -5,15 +5,24 @@
 
 @font-face {
   font-family: "OnelySans";
-  src: url('public/Fonts/OnelySans.ttf') format('truetype');
+  src: url('/Fonts/OnelySans.ttf') format('truetype');
 }
 
 
 @font-face {
   font-family: "Landre";
-  src: url('/public/Fonts/landre-regular.ttf') format('truetype');
+  src: url('/Fonts/landre-regular.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: "Jetbrains";
+  src: url('/Fonts/JetBrainsMono-Thin.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "AzeretMono";
+  src: url('/Fonts/AzeretMono-Variable.ttf') format('truetype');
+}
 
 @theme inline {
   --color-background: var(--background);

@@ -14,10 +14,11 @@ import {
 } from "@/components/ui/carousel";
 
 //Auth (MongoDB placeholder)
-import { signUp, logIn } from "../../../backend/scripts/auth";
+import { signUp, logIn } from "../../utils/auth";
 
 //Routing
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../utils/AuthContext";
 
 //Props Structure for Sign-up and Log-in forms
 interface FormProps {
@@ -27,14 +28,18 @@ interface FormProps {
 function SignupForm({ onNavigate }: FormProps) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const { setUser } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form submitted");
 
     try{
-      await signUp(email, password);
+      const user = await signUp(email, password);
+      setUser(user); // Update auth context
       toast.success("Account created successfully!");
+      navigate("/home"); // Redirect to home
     } catch (error: any) {
       console.error("sign up failed", error);
       
@@ -96,20 +101,20 @@ function SignupForm({ onNavigate }: FormProps) {
 }
 
 function LoginForm({ onNavigate }: FormProps) {
-
   const navigate = useNavigate();
-
+  const { setUser } = useAuth();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const handleSubmit =  async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form submitted");
 
     try {
-      await logIn(email, password);
+      const user = await logIn(email, password);
+      setUser(user); // Update auth context
       toast.success("Login successful!");
-      navigate("/home")  // Use imported function
+      navigate("/home"); // Redirect to home
     } catch (error: any) {
       console.error("Login failed", error);
       

@@ -7,8 +7,6 @@ import { Carousel } from "@/components/ui/apple-cards-carousel";
 import  LineBreak  from "@/components/my-comps/Linebreak";
 import Footer from "@/components/my-comps/Footer";
 
-
-
 //icons
 import HomeIcon from "@/components/my-comps/Home-Icon";
 import Cart from "@/components/my-comps/Cart";
@@ -22,19 +20,18 @@ import appleImage from "@/assets/images/apple.jpg";
 import orangeImage from "@/assets/images/orange.jpg";
 
 //functions and hooks
-
 import { useState, useEffect } from "react";
-import { useCart } from "@/contexts/CartContext";
-import { get_items, get_all_items, get_stats, get_item_by_name, get_item_by_id } from '../../backend/scripts/grocery_item';
-import { useAuth } from '../../backend/scripts/AuthContext';
-import { logOut } from '../../backend/scripts/auth';
+// import { useCart } from "@/contexts/CartContext";
+import { get_item_by_name} from '../utils/grocery_item';
+import { useAuth } from '../utils/AuthContext';
+import { logOut, updateProfile } from '../utils/auth';
 
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 export default function Home() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const [groceryItems, setGroceryItems] = useState<any[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -60,10 +57,7 @@ export default function Home() {
           title: item.name,
           src: item.image,
           description: item.description
-              };
-            }
-          })
-        );
+        }));
         
         console.log("Processed items:", processedItems);
         setGroceryItems(processedItems);
@@ -96,6 +90,7 @@ export default function Home() {
   const handleLogout = async () => {
     try {
       await logOut();
+      setUser(null); // Clear user state
       toast.success('Logged out successfully');
       navigate('/login');
     } catch (error) {
@@ -174,25 +169,52 @@ export default function Home() {
       <div className="relative flex min-h-screen w-full items-center justify-center p-20">
 
 
+
+        {/* SVG ELEMENTS */}
         <SVG
           svgName="Flower-1"
           scale="300"
           className="absolute top-20 left-20 animate-spin-slow-5"
-        ></SVG>
+        />
 
-        <SVG svgName="Flower-5" scale="200" className="absolute top-135 left-170"/>
+        <SVG 
+          svgName="Star-3" 
+          scale="200" 
+          className="absolute rotate-33 top-135 left-165 text-border"
+        />
+
+        <SVG
+          svgName="Flower-3"
+          scale="130"
+          className="absolute top-300 -right-10 text-border rotate-90 z-10"
+        />
+
+        <SVG
+          svgName="Flower-3"
+          scale="200"
+          className="absolute top-270 -right-10 rotate-33 z-5"
+        />
+
+        
+        <SVG
+          svgName="Flower-3"
+          scale="250"
+          className="absolute top-290 right-2 rotate-46 text-chart-3"
+        />
+
+        <SVG svgName="Flower-5" scale="350" className="absolute left-2 top-270"/>
 
 
         {/* Text Content */}
-        <div className="absolute top-40 left-40 h-screen w-[40%] backdrop-blur-[4px] bg-background/15 pr-[25px] pl-[25px] pt-[15px]">
-          <h1 className="text-border text-8xl">Nature's Basket</h1>
+        <div className="absolute top-40 left-40 h-screen w-[35%] backdrop-blur-[4px] bg-background/15 pr-[25px] pl-[25px] pt-[15px]">
+          <h1 className="text-border text-8xl font-[OnelySans]">Nature's Basket</h1>
 
           <br />
           <br />
           <br />
           <br />
 
-          <p className="text-foreground text-l max-w-[28rem]">
+          <p className="text-foreground text-l font-[JetBrains]">
             Welcome to Nature's Basket, your all-in-one destination for fast,
             easy, and reliable online grocery shopping. From fresh fruits and
             vegetables to snacks, beverages, and household essentials -
@@ -202,7 +224,7 @@ export default function Home() {
           <br />
           <br />
 
-          <p className="text-foreground text-l max-w-[28rem]">
+          <p className="text-foreground text-l font-[JetBrains]">
             We understand that your time is valuable, which is why we&apos;ve
             made shopping effortless. Simply browse, order, and relax while we
             deliver your groceries right to your doorstep — fresh, on time, and
@@ -212,13 +234,21 @@ export default function Home() {
           <br />
           <br />
 
-          <p className="text-foreground text-l max-w-[28rem]">
+          <p className="text-foreground text-l font-[JetBrains]">
             At Nature's Basket, we combine quality, convenience, and
             affordability to bring you the best grocery experience possible. Say
             goodbye to crowded stores and long queues — and hello to smarter
             shopping from the comfort of your home.
           </p>
 
+
+          <div className="w-full mt-8">
+            <SVG svgName="Checkered-1" scale="160px" className="text-border absolute bottom-2 left-0"></SVG>
+            <SVG svgName="Checkered-1" scale="160px" className="text-border absolute bottom-2 left-45"></SVG>
+            <SVG svgName="Checkered-1" scale="160px" className="text-border absolute bottom-2 left-90"></SVG>
+            <SVG svgName="Checkered-1" scale="160px" className="text-border absolute bottom-2 left-115"></SVG>
+            <SVG svgName="Checkered-1" scale="160px" className="text-border absolute bottom-2 left-640"></SVG>
+          </div>
         </div>
 
         {/* Image beside text content */}

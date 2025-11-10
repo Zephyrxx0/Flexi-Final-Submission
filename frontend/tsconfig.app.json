@@ -31,5 +31,5 @@
       ]
     }
   },
-  "include": ["src", "backend/scripts/vite-env.d.ts"]
+  "include": ["src"]
 }

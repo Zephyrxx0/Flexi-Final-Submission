@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "@/Pages/Login";
 import Home from "@/Pages/Home";
 import Shop from "./Pages/Shop";
-import  ProtectedRoute  from "../backend/scripts/ProtectedRoute";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -14,7 +14,6 @@ function App() {
         <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/shop" element={<ProtectedRoute><Shop /></ProtectedRoute>} />
-        <Route path="/demo" element={<ProtectedRoute><MorphingSVGDemo /></ProtectedRoute>} />
       </Routes>
       <Toaster />
     </BrowserRouter>

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import ProductCard from "../components/my-comps/ProductCard";
 import CartSidePanel from "../components/my-comps/CartSidePanel";
 import { useCart } from "@/contexts/CartContext";
-import { get_all_items } from "../../backend/scripts/grocery_item";
+import { get_all_items } from "../utils/grocery_item";
 import {
   Pagination,
   PaginationContent,
@@ -22,8 +22,8 @@ import Cart from "../components/my-comps/Cart";
 import ShopIcon from "../components/my-comps/ShopIcon";
 import Footer from "../components/my-comps/Footer";
 import GithubIcon from "../components/my-comps/GithubIcon";
-import { useAuth } from '../../backend/scripts/AuthContext';
-import { logOut } from '../../backend/scripts/auth';
+import { useAuth } from '../utils/AuthContext';
+import { logOut, updateProfile } from '../utils/auth';
 
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -39,7 +39,7 @@ interface GroceryItem {
 
 export default function Shop() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const [items, setItems] = useState<GroceryItem[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
@@ -122,6 +122,7 @@ export default function Shop() {
   const handleLogout = async () => {
     try {
       await logOut();
+      setUser(null); // Clear user state
       toast.success('Logged out successfully');
       navigate('/login');
     } catch (error) {
