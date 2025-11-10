@@ -1,12 +1,12 @@
 import AnimatedText from "./AnimatedText";
 import { Separator } from "@/components/ui/separator";
-import MorphingSVGDemo from "../examples/MorphingSVGExample";
+import SVG from "../ui/svg-comp";
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="w-full bg-foreground text-background">
+        <footer className="w-full bg-foreground text-background relative">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 {/* Animated Logo Section */}
                 <div className="flex justify-center mb-12">
@@ -19,6 +19,7 @@ export default function Footer() {
                         loop={true}
                     />
                 </div>
+
 
                 <Separator className="mb-8" />
 
@@ -77,6 +78,7 @@ export default function Footer() {
                 </div>
             </div>
 
+            <SVG svgName="Flower-4" scale="150px" className="absolute top-4 left-4 animate-spin-slow-1"/>
         </footer>
     )
 }

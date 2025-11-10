@@ -24,7 +24,7 @@ import Footer from "../components/my-comps/Footer";
 import GithubIcon from "../components/my-comps/GithubIcon";
 import { useAuth } from '../../backend/scripts/AuthContext';
 import { logOut } from '../../backend/scripts/auth';
-import { updateProfile } from 'firebase/auth';
+
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 

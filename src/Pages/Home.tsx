@@ -6,7 +6,7 @@ import SVG from "@/components/ui/svg-comp";
 import { Carousel } from "@/components/ui/apple-cards-carousel";
 import  LineBreak  from "@/components/my-comps/Linebreak";
 import Footer from "@/components/my-comps/Footer";
-// import { SimpleMorphExample } from "@/components/examples/MorphingSVGExample";
+
 
 
 //icons
@@ -22,13 +22,13 @@ import appleImage from "@/assets/images/apple.jpg";
 import orangeImage from "@/assets/images/orange.jpg";
 
 //functions and hooks
-import { removeBg } from "@/scripts/removebg";
+
 import { useState, useEffect } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { get_items, get_all_items, get_stats, get_item_by_name, get_item_by_id } from '../../backend/scripts/grocery_item';
 import { useAuth } from '../../backend/scripts/AuthContext';
 import { logOut } from '../../backend/scripts/auth';
-import { updateProfile } from 'firebase/auth';
+
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
@@ -55,29 +55,11 @@ export default function Home() {
           .map(result => result[0])
           .filter(item => item);
         
-        // Process each image through removeBg
-        const processedItems = await Promise.all(
-          fetchedItems.map(async (item) => {
-            try {
-              // Pass the image URL directly to removeBg
-              const processedBuffer = await removeBg(item.image);
-              
-              // Convert ArrayBuffer to blob and create URL
-              const processedBlob = new Blob([processedBuffer], { type: "image/png" });
-              const processedUrl = URL.createObjectURL(processedBlob);
-              
-              return {
-                title: item.name,
-                src: processedUrl,
-                description: item.description
-              };
-            } catch (error) {
-              console.error(`Failed to process ${item.name}:`, error);
-              // Fallback to original image
-              return {
-                title: item.name,
-                src: item.image,
-                description: item.description
+        // Use items as-is without background removal processing
+        const processedItems = fetchedItems.map(item => ({
+          title: item.name,
+          src: item.image,
+          description: item.description
               };
             }
           })
@@ -195,8 +177,10 @@ export default function Home() {
         <SVG
           svgName="Flower-1"
           scale="300"
-          className="absolute top-20 left-20 "
+          className="absolute top-20 left-20 animate-spin-slow-5"
         ></SVG>
+
+        <SVG svgName="Flower-5" scale="200" className="absolute top-135 left-170"/>
 
 
         {/* Text Content */}

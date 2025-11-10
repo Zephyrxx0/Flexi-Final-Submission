@@ -1,6 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { User } from "firebase/auth";
-import { auth } from "./auth";
+
+// TODO: Replace with proper User interface for MongoDB
+interface User {
+    uid: string;
+    email: string | null;
+    displayName?: string | null;
+}
 
 interface AuthContextType {
     user: User | null;
@@ -11,22 +16,19 @@ const AuthContext = createContext<AuthContextType>({ user: null, loading: true }
 
 export const useAuth = () => useContext(AuthContext)
 
-export const AuthProvider = ( { children }: {children: React.ReactNode}) => {
+export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
     const [user, setUser] = useState<User | null>(null);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const unsubcribe = auth.onAuthStateChanged((user) => {
-            setUser(user);
-            setLoading(false);
-        });
-
-        return unsubcribe;
+        // TODO: Check for JWT token in localStorage and validate with MongoDB API
+        console.log("TODO: Implement JWT token validation");
+        setLoading(false);
     }, []);
 
-  return (
-    <AuthContext.Provider value={{ user, loading }}>
-      {children}
-    </AuthContext.Provider>
-  );
+    return (
+        <AuthContext.Provider value={{ user, loading }}>
+            {children}
+        </AuthContext.Provider>
+    );
 }

@@ -3,7 +3,7 @@ import Login from "@/Pages/Login";
 import Home from "@/Pages/Home";
 import Shop from "./Pages/Shop";
 import  ProtectedRoute  from "../backend/scripts/ProtectedRoute";
-import MorphingSVGDemo from "@/components/examples/MorphingSVGExample";
+
 import { Toaster } from "@/components/ui/sonner";
 
 function App() {

@@ -13,7 +13,7 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 
-//Firebase
+//Auth (MongoDB placeholder)
 import { signUp, logIn } from "../../../backend/scripts/auth";
 
 //Routing
@@ -38,20 +38,8 @@ function SignupForm({ onNavigate }: FormProps) {
     } catch (error: any) {
       console.error("sign up failed", error);
       
-      // Handle specific Firebase error codes
-      if (error.code === "auth/email-already-in-use") {
-        toast.error("Account already exists with this email");
-      } else if (error.code === "auth/weak-password") {
-        toast.error("Password should be at least 6 characters");
-      } else if (error.code === "auth/invalid-email") {
-        toast.error("Invalid email address");
-      } else if (error.code === "auth/missing-password") {
-        toast.error("Please enter a password");
-      } else if (error.code === "auth/missing-email") {
-        toast.error("Please enter an email address");
-      } else {
-        toast.error("Sign up failed. Please try again");
-      }
+      // Handle authentication errors
+      toast.error(error.message || "Sign up failed. Please try again");
     }
   };
 
@@ -125,22 +113,8 @@ function LoginForm({ onNavigate }: FormProps) {
     } catch (error: any) {
       console.error("Login failed", error);
       
-      // Handle specific Firebase error codes
-      if (error.code === "auth/invalid-credential" || error.code === "auth/wrong-password" || error.code === "auth/user-not-found") {
-        toast.error("Invalid email or password");
-      } else if (error.code === "auth/invalid-email") {
-        toast.error("Invalid email address");
-      } else if (error.code === "auth/missing-password") {
-        toast.error("Please enter a password");
-      } else if (error.code === "auth/missing-email") {
-        toast.error("Please enter an email address");
-      } else if (error.code === "auth/too-many-requests") {
-        toast.error("Too many failed attempts. Please try again later");
-      } else if (error.code === "auth/user-disabled") {
-        toast.error("This account has been disabled");
-      } else {
-        toast.error("Login failed. Please try again");
-      }
+      // Handle authentication errors
+      toast.error(error.message || "Login failed. Please try again");
     }
   };
 
@@ -152,7 +126,6 @@ function LoginForm({ onNavigate }: FormProps) {
       <p className="mt-2 max-w-sm text-sm text-muted-foreground">
         Get your groceries in dash!
       </p>
-
       <form className="my-8 text-amber-950" onSubmit={handleSubmit}>
         <LabelInputContainer className="mb-4 ">
           <Label htmlFor="login-email">Email Address</Label>

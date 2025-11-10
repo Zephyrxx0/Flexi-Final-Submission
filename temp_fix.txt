@@ -1,0 +1,9 @@
+This is a simple approach. The svg-comp.tsx file is very large and has duplicate fill attributes and incorrect SVG attributes. 
+
+Let's rewrite the Lines-1 SVG to be simple and fix the anime.js issue.
+
+Key fixes needed:
+1. Replace fill-rule with fillRule
+2. Replace clip-rule with clipRule  
+3. Fix Lines-1 SVG to be simple dotted lines
+4. Fix anime.js import and usage

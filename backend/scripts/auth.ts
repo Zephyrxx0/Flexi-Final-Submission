@@ -1,61 +1,30 @@
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  User,
-} from "firebase/auth";
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+// TODO: Replace with MongoDB + JWT authentication
+// This file will be replaced with Express.js API calls
 
-const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+interface User {
+  uid: string;
+  email: string | null;
+  displayName?: string | null;
+}
+
+// Placeholder functions - these will make API calls to MongoDB backend
+export const signUp = async (email: string, password: string): Promise<User> => {
+  // TODO: Make API call to /api/auth/signup
+  console.log("TODO: Implement MongoDB signup");
+  throw new Error("MongoDB authentication not yet implemented");
 };
 
-//Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const auth = getAuth(app);
-
-export const signUp = async ( email: string, password: string) : Promise<User> => {
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    console.log("Sign Up Successful: ", userCredential.user);
-    return userCredential.user
-  } catch (error: any) {
-    console.error("Sign up error: ", error.code, error.message);
-    throw error;
-  }
-};
-
-export const logIn = async (email: string, password: string) : Promise<User> => {
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    console.log("Log-in successful: ", userCredential.user);
-    return userCredential.user;
-  } catch (error: any) {
-    console.error("Login Error: ", error.code, error.message);
-    throw error;
-  }
+export const logIn = async (email: string, password: string): Promise<User> => {
+  // TODO: Make API call to /api/auth/login
+  console.log("TODO: Implement MongoDB login");
+  throw new Error("MongoDB authentication not yet implemented");
 };
 
 export const logOut = async (): Promise<void> => {
-  try {
-    await signOut(auth);
-    console.log("Log out successful");
-  } catch (error: any) {
-    console.error("Logout Error:", error.code, error.message);
-    throw error;
-  }
-} 
-
-export { auth, analytics };
+  // TODO: Clear JWT token from localStorage
+  console.log("TODO: Implement MongoDB logout");
+  throw new Error("MongoDB authentication not yet implemented");
+};
 
 
 
