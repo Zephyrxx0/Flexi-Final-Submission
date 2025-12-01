@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { useAuth } from '../utils/AuthContext';
-import { getAuthToken } from '../utils/auth';
 
 interface CartItem {
   id: number;
@@ -23,90 +22,40 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-const API_BASE_URL = 'http://localhost:3001/api';
-
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
 
-  // Load cart from localStorage or API when user changes
+  // Load cart from localStorage when user changes
   useEffect(() => {
-    const loadCart = async () => {
-      if (user) {
-        // User is logged in, try to load cart from backend
-        try {
-          setLoading(true);
-          const token = getAuthToken();
-          const response = await fetch(`${API_BASE_URL}/cart`, {
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
-          });
-          
-          if (response.ok) {
-            const cartData = await response.json();
-            setItems(cartData.items || []);
-          } else {
-            // If cart doesn't exist on backend, load from localStorage
-            const localCart = localStorage.getItem('cart');
-            if (localCart) {
-              setItems(JSON.parse(localCart));
-            }
-          }
-        } catch (error) {
-          console.error('Error loading cart from backend:', error);
-          // Fallback to localStorage
-          const localCart = localStorage.getItem('cart');
-          if (localCart) {
-            setItems(JSON.parse(localCart));
-          }
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        // User not logged in, load from localStorage
+    const loadCart = () => {
+      try {
+        setLoading(true);
+        // Load from localStorage only (guest local storage)
         const localCart = localStorage.getItem('cart');
         if (localCart) {
           setItems(JSON.parse(localCart));
         } else {
           setItems([]);
         }
+      } catch (error) {
+        console.error('Error loading cart:', error);
+        setItems([]);
+      } finally {
+        setLoading(false);
       }
     };
 
     loadCart();
   }, [user]);
 
-  // Save cart to localStorage and backend when items change
+  // Save cart to localStorage when items change
   useEffect(() => {
-    const saveCart = async () => {
-      // Always save to localStorage
-      localStorage.setItem('cart', JSON.stringify(items));
-      
-      // If user is logged in, also save to backend
-      if (user && items.length > 0) {
-        try {
-          const token = getAuthToken();
-          await fetch(`${API_BASE_URL}/cart`, {
-            method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ items }),
-          });
-        } catch (error) {
-          console.error('Error saving cart to backend:', error);
-        }
-      }
-    };
-
     if (items.length > 0) {
-      saveCart();
+      localStorage.setItem('cart', JSON.stringify(items));
     }
-  }, [items, user]);
+  }, [items]);
 
   const addItem = (item: Omit<CartItem, 'quantity'>) => {
     setItems((prevItems) => {
@@ -139,25 +88,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
     );
   };
 
-  const clearCart = async () => {
+  const clearCart = () => {
     setItems([]);
     localStorage.removeItem('cart');
-    
-    // If user is logged in, also clear cart on backend
-    if (user) {
-      try {
-        const token = getAuthToken();
-        await fetch(`${API_BASE_URL}/cart`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-      } catch (error) {
-        console.error('Error clearing cart on backend:', error);
-      }
-    }
   };
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
