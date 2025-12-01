@@ -23,3 +23,12 @@ dist-ssr
 *.sln
 *.sw?
 src/utils/vite-env.d.ts
+
+# Miscellaneous
+temp_fix.txt
+.env
+.env.*
+!.env.example
+Thumbs.db
+ehthumbs.db
+Desktop.ini
